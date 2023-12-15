@@ -19,7 +19,7 @@ namespace Pilot_simulator
                 reg.RegistrAvtorize();
                 Plane plane = new Plane();
                 plane.NewGame(reg);
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(1000);
                 if (plane.isCrashed == true || plane.totalPenalty > 1000 ) { reg.GetPilot().IsReady = "Не допущен к полетам!"; }
                 else
                 {

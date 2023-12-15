@@ -24,6 +24,21 @@ namespace Pilot_simulator
             }
             return false;
         }
+        public int isAvtorize(List<Pilot> temp_pilot)
+        {
+            foreach (var item in temp_pilot)
+            {
+                if (pilot.Login == item.Login && pilot.Password == item.Password)
+                {
+                    return 1;
+                }
+                if (pilot.Login == item.Login && pilot.Password != item.Password)
+                {
+                    return 2;
+                }
+            }
+            return 0;
+        }
         public void BlackBox(string time, int speed, int hight)
         {
             string filename = $"{GetPilot().Login}.txt";
@@ -131,28 +146,20 @@ namespace Pilot_simulator
                         {
                             temp_pilot = (List<Pilot>)bf.Deserialize(fsteread);
                         }
-                        foreach (var item in temp_pilot)
+                        if (isAvtorize(temp_pilot) == 1) { isCorrect = true; }
+                        if (isAvtorize(temp_pilot) == 2)
                         {
-                            if(pilot.Login==item.Login && pilot.Password==item.Password)
-                            {
-                                isCorrect = true;
-                                break;
-                            }
-                            if(pilot.Login == item.Login && pilot.Password != item.Password)
-                            {
-                                Console.SetCursorPosition(25, 7);
-                                Console.WriteLine("Логин найден! ОШИБКА ПАРОЛЯ!");
-                                isCorrect = false;
-                                System.Threading.Thread.Sleep(500);
-                                break;
-                            }
-                            else
-                            {
-                                Console.SetCursorPosition(25, 7);
-                                Console.WriteLine("Пользовтель не зарегистрирован!");
-                                isCorrect = false;
-                                System.Threading.Thread.Sleep(500);
-                            }
+                            Console.SetCursorPosition(25, 7);
+                            Console.WriteLine("Логин найден! ОШИБКА ПАРОЛЯ!");
+                            isCorrect = false;
+                            System.Threading.Thread.Sleep(500);
+                        }
+                        if(isAvtorize(temp_pilot)==0)
+                        {
+                            Console.SetCursorPosition(25, 7);
+                            Console.WriteLine("Пользовтель не зарегистрирован!");
+                            isCorrect = false;
+                            System.Threading.Thread.Sleep(500);
                         }
                     }
                     else

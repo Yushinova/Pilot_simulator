@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,7 +133,9 @@ namespace Pilot_simulator
         public void NewGame(Registration obj)
         {
 
-           
+            string filename = $"{obj.GetPilot().Login}.txt";
+            StreamWriter aw = File.CreateText(filename);//каждый раз пересоздается
+            aw.Close();
             Console.Clear();
             Console.WriteLine("Добро пожаловать в симулятор полета!" +
                     "\n" + "Для добавления диспетчера используйте Enter (минимум 2 человека)" +
@@ -140,7 +143,7 @@ namespace Pilot_simulator
                     "\n" + "Набрать скорость Right (+50км/ч) , сбросить скорость Left (-50км/ч)" +
                     "\n" + "Набрать высоту Up (+250м), сбросить высоту Down(-250м)" +
                    "\n" + "Будьте внимательны, следите за рекомендациями диспетчеров! Хорошего полета!");
-            int x = 5, y = 19;
+            int x = 5, y = 24;
             ConsoleKey key;
             BoxEvent += obj.BlackBox;
             do
@@ -155,15 +158,15 @@ namespace Pilot_simulator
                         {
                             CurrentHeight += CHANGE_HIGHT;
                             if (y > 3) y--;
-                            if (x < 80) x++;
+                            if (x < 85) x++;
                         }
                         break;
                     case ConsoleKey.DownArrow:
                         if (dispatchers.Count >= 2)
                         {
                             CurrentHeight -= CHANGE_HIGHT;
-                            if (y < 20) y++;
-                            if (x < 80) x++;
+                            if (y < 24) y++;
+                            if (x < 85) x++;
                         }
                         break;
                     case ConsoleKey.LeftArrow:
@@ -194,7 +197,7 @@ namespace Pilot_simulator
                     {
                         if (!item.isAlive)
                         {
-                            while (y != 20)
+                            while (y != 23)
                             {
                                 Show(x, y);
                                 Console.Clear();
@@ -216,9 +219,10 @@ namespace Pilot_simulator
                 if (currentHeight < 1 && currentSpeed < 1 && isSuccess == true)
                 {
                     Console.WriteLine("ПОЗДРАВЛЯЕМ ВЫ ЗАВЕРШИЛИ ПОЛЕТ УСПЕШНО!");
+                    isCrashed = false;
                     isOver = true;
                 }
-                Console.SetCursorPosition(0, 28);
+                Console.SetCursorPosition(0, 32);
                 Console.WriteLine(this);
             } while (isOver!=true);
             System.Threading.Thread.Sleep(1000);

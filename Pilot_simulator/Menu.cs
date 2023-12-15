@@ -56,7 +56,6 @@ namespace Pilot_simulator
                             return -1;
                         }
                         return punctNumber;
-                        break;
                 }
             } while (key != ConsoleKey.Escape);
             return -1;
