@@ -25,8 +25,8 @@ namespace Pilot_simulator
         event BoxDelegate BoxEvent;
         List<Dispatcher> dispatchers = new List<Dispatcher>();// Список текущих диспетчеров
         List<string> add_menu = new List<string> { "  добавить диспетчера  ", "  удалить диспетчера   " };
-        public int totalPenalty { get; set; }// Общая сумма штрафных очков
-        int currentSpeed;// Текущая скорость
+        public int totalPenalty { get; set; }//Общая сумма штрафных очков
+        int currentSpeed;//Текущая скорость
         public int CurrentSpeed
         {
             get { return currentSpeed; }
@@ -36,7 +36,7 @@ namespace Pilot_simulator
                 currentSpeed = value;
             }
         }
-        int currentHeight;// Текущая Высота
+        int currentHeight;//Текущая Высота
         public int CurrentHeight
         {
             get { return currentHeight; }
@@ -46,7 +46,7 @@ namespace Pilot_simulator
                 currentHeight = value;
             }
         }
-        public void AddDispatcher()// Добавление диспетчера
+        public void AddDispatcher()//Добавление/удааление диспетчера
         {
             Menu add = new Menu();
             int ind = add.choiseMenu(add_menu, 1, 1);
@@ -56,7 +56,7 @@ namespace Pilot_simulator
                 Console.Write("Введите имя диспетчера: ");
                 Dispatcher dispatcher = new Dispatcher { Name = Console.ReadLine(), Weather = 0 };
                 dispatchers.Add(dispatcher);
-                PlaneEvent += dispatcher.RecomendHight;//подписка
+                PlaneEvent += dispatcher.Recomend;//Подписка
             }
             else
             {
@@ -64,7 +64,7 @@ namespace Pilot_simulator
                 {
                     ind = add.choiseMenu(dispatchers, 1, 1);
                     totalPenalty += dispatchers[ind].Penalty;
-                    PlaneEvent -= dispatchers[ind].RecomendHight;//отписка
+                    PlaneEvent -= dispatchers[ind].Recomend;//Отписка
                     dispatchers.RemoveAt(ind);
                 }
             }
@@ -134,7 +134,7 @@ namespace Pilot_simulator
         {
 
             string filename = $"{obj.GetPilot().Login}.txt";
-            StreamWriter aw = File.CreateText(filename);//каждый раз пересоздается
+            StreamWriter aw = File.CreateText(filename);//Каждый раз пересоздается
             aw.Close();
             Console.Clear();
             Console.WriteLine("Добро пожаловать в симулятор полета!" +
@@ -181,7 +181,7 @@ namespace Pilot_simulator
                             CurrentSpeed += CHANGE_SPEED;
                         }
                         break;
-                    case ConsoleKey.Enter://добавтить или удалить диспетчеров в любое время полета
+                    case ConsoleKey.Enter://Добавтить или удалить диспетчеров в любое время полета
                         AddDispatcher();
                         break;
 
@@ -191,8 +191,8 @@ namespace Pilot_simulator
                 if (dispatchers.Count < 2 && CurrentSpeed < CHANGE_SPEED) { Console.WriteLine("Диспетчеров не может быть меньше 2!!"); }
                 else
                 {
-                    PlaneEvent(CurrentSpeed, CurrentHeight);//принимают управление диспетчеры
-                    BoxEvent(Convert.ToString(DateTime.Now), CurrentSpeed ,CurrentHeight);
+                    PlaneEvent(CurrentSpeed, CurrentHeight);//Управление диспетчерами
+                    BoxEvent(Convert.ToString(DateTime.Now), CurrentSpeed ,CurrentHeight);//Запись черного ящика
                     foreach (var item in dispatchers)
                     {
                         if (!item.isAlive)
@@ -201,7 +201,7 @@ namespace Pilot_simulator
                             {
                                 Show(x, y);
                                 Console.Clear();
-                                y++;//самолет падает
+                                y++;//Самолет падает
                             }
                             Console.WriteLine("НУЖНО ЕЩЕ ПОДУЧИТЬСЯ!");
                             isCrashed = true;
